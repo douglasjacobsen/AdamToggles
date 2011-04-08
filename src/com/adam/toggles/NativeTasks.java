@@ -1,4 +1,4 @@
-package net.eto.homeip.beast;
+package com.adam.toggles;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
