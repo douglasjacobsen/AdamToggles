@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Toggles!</string>
+    <string name="app_name">Adam Toggles</string>
+    <string name="toggle_phone">Toggle Phone</string>
+    <string name="toggle_led">Toggle LED Heartbeat</string>
+    <string name="toggle_physical_button">Toggle Wake Buttons</string>
+    <string name="toggle_sdcard">Toggle SDcard</string>
+    <string name="toggle_data2loop">Toggle Data2Loop</string>
+    <string name="string_no_reboot">No Reboot Needed</string>
+    <string name="string_reboot_req">Reboot Required</string>
+    <string name="string_reboot">Reboot</string>
+</resources>
