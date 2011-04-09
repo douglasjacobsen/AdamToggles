@@ -2,12 +2,11 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" xmlns:android1="http://schemas.android.com/apk/res/android">
+    android:layout_height="fill_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="5dp">
+        android:layout_height="fill_parent">
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"
@@ -15,7 +14,37 @@
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="5dp" />
+            android:layout_height="fill_parent">
+    
+	
+			<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
+    			<TextView android:text="PixelQi     Heartbeat-LED" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+				<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:orientation="vertical">
+        			<ToggleButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:id="@+id/button_phone_toggle" android:text="@string/toggle_phone"></ToggleButton>
+        			<ToggleButton android:layout_height="wrap_content" android:id="@+id/button_led_toggle" android:layout_width="wrap_content" android:text="@string/toggle_led" android:layout_toRightOf="@+id/button_phone_toggle"></ToggleButton>
+    			</RelativeLayout>
+    			<TextView android:text="Phone / 3G Toggle" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    			<ToggleButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:id="@+id/button_phone_toggle" android:text="@string/toggle_phone"></ToggleButton>
+			</LinearLayout>
+			
+			<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
+    			<TextView android:text="Main SDCard" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+					<RadioGroup android:id="@+id/radioGroup1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+        				<RadioButton android:layout_height="wrap_content" android:id="@+id/radio0" android:text="Internal" android:layout_width="wrap_content" android:checked="true"></RadioButton>
+        				<RadioButton android:layout_height="wrap_content" android:id="@+id/radio1" android:text="External" android:layout_width="wrap_content"></RadioButton>
+    				</RadioGroup>
+    		</LinearLayout>
+    
+            <TextView 
+                android:id="@+id/textview2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" 
+                android:text="this is another tab" />
+            <TextView 
+                android:id="@+id/textview3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" 
+                android:text="this is a third tab" />
+        </FrameLayout>
     </LinearLayout>
 </TabHost>
