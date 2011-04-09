@@ -2,12 +2,12 @@ package com.adam.toggles;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.adam.toggles.NativeTasks;
 
 public class Toggles extends Activity {
 	
@@ -36,7 +38,7 @@ public class Toggles extends Activity {
 	final int n_physical_buttons = 7;
 	final String[] physical_files = {"qwerty","qwerty","qwerty","qwerty","gpio-keys","gpio-keys","gpio-keys"};
 	final String[] physical_names = {"SEARCH","HOME","MENU","BACK","VOLUME_UP","VOLUME_DOWN","BACK"};
-	final String[] physical_wakes = {"WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE", "WAKE","WAKE"};
+	final String[] physical_wakes = {"WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED","WAKE"};
 	final String[] physical_button_tags = {"Search","Home","Menu","Capacitive Back","Volume up","Volume down", "Hardware Back"};
 	final int[] physical_codes = {217, 102, 139, 158, 115, 114, 158};
 	final CharSequence[] physical_buttons = (CharSequence[])physical_button_tags;
@@ -45,6 +47,7 @@ public class Toggles extends Activity {
 	private SharedPreferences sPrefs;
     private static final String prefs_name = "toggle-prefs";
 	
+    NativeTasks run = new NativeTasks();
 	Runtime rt;
 	Process process;
 	DataOutputStream toProcess;
@@ -54,9 +57,6 @@ public class Toggles extends Activity {
 
     ByteArrayOutputStream inpbuffer = new ByteArrayOutputStream();
     ByteArrayOutputStream errbuffer = new ByteArrayOutputStream();
-
-    InputReader inpreader;
-    InputReader errreader;
 	
 	String command;
 	Button phoneButton, ledButton, sdcardButton, physicalButton, rebootButton;
@@ -65,7 +65,8 @@ public class Toggles extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.main);
+        //this.setContentView(R.layout.main);
+        this.setContentView(R.layout.tab);
         
         context = this;
         
@@ -79,14 +80,7 @@ public class Toggles extends Activity {
         try{
         	process = Runtime.getRuntime().exec("su");
         	toProcess = new DataOutputStream(process.getOutputStream());
-        	
-            inpreader = new InputReader(process.getInputStream(), inpbuffer);
-            errreader = new InputReader(process.getErrorStream(), errbuffer);
 
-            Thread.sleep(10);
-
-            inpreader.start();
-            errreader.start();
         } catch (Exception err){
 		}
         
@@ -226,7 +220,7 @@ public class Toggles extends Activity {
     	String command;
     	try{
     		command = "reboot";
-    		runCommand(command);
+    		run.suCom(command);
     	} catch (Exception e){	
     	}
     }
@@ -238,11 +232,11 @@ public class Toggles extends Activity {
 
     	try{
     		command = "echo 'key 62 POWER WAKE' > /system/usr/keylayout/gpio-keys.kl";
-    		runCommand(command);
+    		run.suCom(command);
     		command = "echo 'key 102 MENU' > /system/usr/keylayout/gpio-keys.kl";
-    		runCommand(command);
+    		run.suCom(command);
     		command = "echo -n '' > /system/usr/keylayout/qwerty.kl";
-    		runCommand(command);
+    		run.suCom(command);
     		for(int i = 0; i < n_physical_buttons; i++){
 				new_button = physical_names[i];
     			if(physical_checked[i]){
@@ -252,7 +246,7 @@ public class Toggles extends Activity {
     				command = "echo 'key "+physical_codes[i]+" "+new_button+
     				" ' >> /system/usr/keylayout/"+physical_files[i]+".kl";
     			}
-    			runCommand(command);
+    			run.suCom(command);
     			editor.putBoolean(physical_button_tags[i], physical_checked[i]);
     			Log.w(TAG,physical_buttons[i]+" is a wake button: "+physical_checked[i]);
     		}
@@ -273,44 +267,44 @@ public class Toggles extends Activity {
     	if(temp == 0){
     		try{
     			command = "echo '## Vold 2.0 NVIDIA Harmony fstab' > /system/etc/vold.fstab";
-    			runCommand(command);
-    			command = "echo '#######################' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
+    			/*command = "echo '#######################' >> /system/etc/vold.fstab";
+    			run.suCom(command);
     			command = "echo '' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## Regular device mount' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '##' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## Format: dev_mount <label> <mount_point> <part> <sysfs_path1...>' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## label        - Label for the volume' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## mount_point  - Where the volume will be mounted' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## part         - Partition # (1 based), or 'auto' for first usable partition.' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## <sysfs_path> - List of sysfs paths to source devices' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '######################' >> /system/etc/vold.fstab";
-    			runCommand(command);
-    			command = "echo '' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
+    			command = "echo '' >> /system/etc/vold.fstab";*/
+    			run.suCom(command);
     			command = "echo '#dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.3/mmc_host/mmc0 /devices/platform/tegra-sdhci.3/mmc_host/mmc1' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount sdcard2 /mnt/sdcard2 auto /devices/platform/tegra-sdhci.3/mmc_host/mmc2' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '# todo: the secondary sdcard seems to confuse vold badly' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.2/mmc_host/mmc1' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount usbdisk /mnt/usbdisk auto /devices/platform/tegra-ehci' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			
     			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard2";
-    			runCommand(command);
+    			run.suCom(command);
     			
     			editor.putInt(sdcard_tag, 1);
     			Log.w(TAG,"Sdcard toggle is on");
@@ -321,44 +315,44 @@ public class Toggles extends Activity {
     	} else {
     		try {
     			command = "echo '## Vold 2.0 NVIDIA Harmony fstab' > /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '#######################' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## Regular device mount' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '##' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## Format: dev_mount <label> <mount_point> <part> <sysfs_path1...>' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## label        - Label for the volume' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## mount_point  - Where the volume will be mounted' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## part         - Partition # (1 based), or 'auto' for first usable partition.' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '## <sysfs_path> - List of sysfs paths to source devices' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '######################' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '#dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.3/mmc_host/mmc0 /devices/platform/tegra-sdhci.3/mmc_host/mmc1' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.3/mmc_host/mmc2' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo '# todo: the secondary sdcard seems to confuse vold badly' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount sdcard2 /mnt/sdcard2 auto /devices/platform/tegra-sdhci.2/mmc_host/mmc1' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "echo 'dev_mount usbdisk /mnt/usbdisk auto /devices/platform/tegra-ehci' >> /system/etc/vold.fstab";
-    			runCommand(command);
+    			run.suCom(command);
     			
     			command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard";
-    			runCommand(command);
+    			run.suCom(command);
     			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard2";
-    			runCommand(command);
+    			run.suCom(command);
     			
     			editor.putInt(sdcard_tag, 0);
     			Log.w(TAG,"Sdcard toggle is off");
@@ -381,7 +375,7 @@ public class Toggles extends Activity {
     	if(temp == "none"){
     		try{
     			command = "echo heartbeat > /sys/class/leds/cpu/trigger";
-    			runCommand(command);
+    			run.suCom(command);
     			editor.putString(led_tag,"heartbeat");
     			Log.w(TAG,"Led toggle is off");
     			toast = Toast.makeText(context,"LED Heartbeat is now on.",duration);
@@ -392,7 +386,7 @@ public class Toggles extends Activity {
     	} else {
     		try{
     			command = "echo none > /sys/class/leds/cpu/trigger";
-    			runCommand(command);
+    			run.suCom(command);
     			editor.putString(led_tag,"none");
     			Log.w(TAG,"Led toggle is on");
     			toast = Toast.makeText(context,"LED Heartbeat is now off.",duration);
@@ -415,13 +409,13 @@ public class Toggles extends Activity {
 		if(temp == 0){
 			try{
 				command = "mv /system/app/Phone.apk /system/app/Phone.bak";
-				runCommand(command);
+				run.suCom(command);
 				command = "mv /system/app/TelephonyProvider.apk /system/app/TelephonyProvider.bak";
-				runCommand(command);
+				run.suCom(command);
 				command = "mv /system/etc/permissions/android.hardware.telephony.gsm.xml /system/etc/permissions/android.hardware.telephony.gsm.bak";
-				runCommand(command);
+				run.suCom(command);
 				command = "if [ -a /system/etc/Scripts/handheld_core_hardware.off ]; then cat /system/etc/Scripts/handheld_core_hardware.off > /system/etc/permissions/handheld_core_hardware.xml; fi";
-				runCommand(command);
+				run.suCom(command);
 				editor.putInt(phone_tag, 1);
 				Log.w(TAG,"Phone toggle is on");
 				toast = Toast.makeText(context,"Phone services are now disabled.",duration);
@@ -431,13 +425,13 @@ public class Toggles extends Activity {
 		} else {
 			try{
 				command = "mv /system/app/Phone.bak /system/app/Phone.apk";
-				runCommand(command);
+				run.suCom(command);
 				command = "mv /system/app/TelephonyProvider.bak /system/app/TelephonyProvider.apk";
-				runCommand(command);
+				run.suCom(command);
 				command = "mv /system/etc/permissions/android.hardware.telephony.gsm.bak /system/etc/permissions/android.hardware.telephony.gsm.xml";
-				runCommand(command);
+				run.suCom(command);
 				command = "if [ -a /system/etc/Scripts/handheld_core_hardware.on ]; then cat /system/etc/Scripts/handheld_core_hardware.on > /system/etc/permissions/handheld_core_hardware.xml; fi";
-				runCommand(command);
+				run.suCom(command);
 				editor.putInt(phone_tag, 0);
 				Log.w(TAG,"Phone toggle is off");
 				toast = Toast.makeText(context,"Phone services are now enabled.",duration);
@@ -447,110 +441,4 @@ public class Toggles extends Activity {
 		}
 		editor.commit();
     }
-    
-    /*********** The following class structures are copied from z4root ***************/
-    public VTCommandResult runCommand(String command) throws Exception {
-        Log.i("oclf", command);
-        synchronized (WriteLock) {
-            inpbuffer.reset();
-            errbuffer.reset();
-        }
-    
-        toProcess.writeBytes(command + "\necho :RET=$?\n");
-        toProcess.flush();
-        while (true) {
-            synchronized (ReadLock) {
-                boolean doWait;
-                synchronized (WriteLock) {
-                    byte[] inpbyte = inpbuffer.toByteArray();
-                    String inp = new String(inpbyte);
-                    doWait = !inp.contains(":RET=");
-                }
-                if (doWait) {
-                    ReadLock.wait();
-                }
-            }
-            synchronized (WriteLock) {
-                byte[] inpbyte = inpbuffer.toByteArray();
-                byte[] errbyte = errbuffer.toByteArray();
-    
-                String inp = new String(inpbyte);
-                String err = new String(errbyte);
-    
-                if (inp.contains(":RET=")) {
-                    if (inp.contains(":RET=EOF") || err.contains(":RET=EOF"))
-                        throw new Exception();
-                    if (inp.contains(":RET=0")) {
-                        //Log.i("oclf success", inp);
-                        return new VTCommandResult(0, inp, err);
-                    } else {
-                        //Log.i("oclf error", err);
-                        return new VTCommandResult(1, inp, err);
-                    }
-                }
-            }
-        }
-    } 
-    
-    public class InputReader extends Thread {
-
-        InputStream is;
-        ByteArrayOutputStream baos;
-
-        public InputReader(InputStream is, ByteArrayOutputStream baos) {
-            this.is = is;
-            this.baos = baos;
-        }
-
-        @Override
-        public void run() {
-            try {
-                byte[] buffer = new byte[1024];
-                while (true) {
-                    int read = is.read(buffer);
-                    if (read < 0) {
-                        synchronized(WriteLock) {
-                            buffer = ":RET=EOF".getBytes();
-                            baos.write(buffer);
-                        }
-                        synchronized (ReadLock) {
-                            ReadLock.notifyAll();
-                        }
-                        return;
-                    }
-                    if (read > 0) {
-                        synchronized(WriteLock) {
-                            baos.write(buffer, 0, read);
-                        }
-                        synchronized (ReadLock) {
-                            ReadLock.notifyAll();
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-    
-    public class VTCommandResult {
-        public final String stdout;
-        public final String stderr;
-        public final Integer exit_value;
-
-        VTCommandResult(Integer exit_value_in, String stdout_in, String stderr_in) {
-            exit_value = exit_value_in;
-            stdout = stdout_in;
-            stderr = stderr_in;
-        }
-
-        VTCommandResult(Integer exit_value_in) {
-            this(exit_value_in, null, null);
-        }
-
-        public boolean success() {
-            return exit_value != null && exit_value == 0;
-        }
-    }
-
 }
