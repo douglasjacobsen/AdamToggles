@@ -19,6 +19,7 @@ public class SystemToggles extends Activity {
 	final String sdcard_tag = "sdcardSwitch";
 	final String led_tag = "ledSwitch";
 	final String physical_button_tag = "physicalButton";
+	final String reboot_tag = "need_reboot";
 	
 	Context context;
 	
@@ -38,7 +39,6 @@ public class SystemToggles extends Activity {
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-        //this.setContentView(R.layout.main);
         setContentView(R.layout.system_toggles);
         boolean state;
         

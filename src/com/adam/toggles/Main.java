@@ -20,10 +20,6 @@ public class Main extends TabActivity {
 	final String TAG = "Toggles-Main";
 	
 	final String reboot_tag = "need_reboot";
-	final String phone_tag = "phoneButton";
-	final String sdcard_tag = "sdcardSwitch";
-	final String led_tag = "ledSwitch";
-	final String physical_button_tag = "physicalButton";
 	
 	final int duration = Toast.LENGTH_SHORT;
 	final int DIALOG_SELECT_PHYSICAL_BUTTON = 0;
