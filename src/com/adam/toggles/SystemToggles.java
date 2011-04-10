@@ -90,18 +90,18 @@ public class SystemToggles extends Activity {
     }
         
     public void toggleLed(){
-    	String temp;
+    	boolean temp;
     	String command;
     	SharedPreferences.Editor editor = sPrefs.edit();
     	Toast toast;
     	
-    	temp = sPrefs.getString(led_tag,"heartbeat");
+    	temp = sPrefs.getBoolean(led_tag,false);
     	
-    	if(temp == "none"){
+    	if(temp){
     		try{
     			command = "echo heartbeat > /sys/class/leds/cpu/trigger";
     			run.suCom(command);
-    			editor.putString(led_tag,"heartbeat");
+    			editor.putBoolean(led_tag,false);
     			Log.w(TAG,"Led toggle is off");
     			toast = Toast.makeText(context,"LED Heartbeat is now on.",duration);
     			toast.show();
@@ -112,7 +112,7 @@ public class SystemToggles extends Activity {
     		try{
     			command = "echo none > /sys/class/leds/cpu/trigger";
     			run.suCom(command);
-    			editor.putString(led_tag,"none");
+    			editor.putBoolean(led_tag,true);
     			Log.w(TAG,"Led toggle is on");
     			toast = Toast.makeText(context,"LED Heartbeat is now off.",duration);
     			toast.show();    			
@@ -124,14 +124,14 @@ public class SystemToggles extends Activity {
     }
     
     public void togglePhone(){
-    	int temp;
+    	boolean temp;
     	String command;
 		SharedPreferences.Editor editor = sPrefs.edit();
 		Toast toast;
 		
-		temp = sPrefs.getInt(phone_tag, 0);
+		temp = sPrefs.getBoolean(phone_tag, false);
 		
-		if(temp == 0){
+		if(!temp){
 			try{
 				command = "mv /system/app/Phone.apk /system/app/Phone.bak";
 				run.suCom(command);
@@ -141,7 +141,7 @@ public class SystemToggles extends Activity {
 				run.suCom(command);
 				command = "if [ -a /system/etc/Scripts/handheld_core_hardware.off ]; then cat /system/etc/Scripts/handheld_core_hardware.off > /system/etc/permissions/handheld_core_hardware.xml; fi";
 				run.suCom(command);
-				editor.putInt(phone_tag, 1);
+				editor.putBoolean(phone_tag, true);
 				Log.w(TAG,"Phone toggle is on");
 				toast = Toast.makeText(context,"Phone services are now disabled.",duration);
     			toast.show();    			
@@ -157,7 +157,7 @@ public class SystemToggles extends Activity {
 				run.suCom(command);
 				command = "if [ -a /system/etc/Scripts/handheld_core_hardware.on ]; then cat /system/etc/Scripts/handheld_core_hardware.on > /system/etc/permissions/handheld_core_hardware.xml; fi";
 				run.suCom(command);
-				editor.putInt(phone_tag, 0);
+				editor.putBoolean(phone_tag, false);
 				Log.w(TAG,"Phone toggle is off");
 				toast = Toast.makeText(context,"Phone services are now enabled.",duration);
     			toast.show();
