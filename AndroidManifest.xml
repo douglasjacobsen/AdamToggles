@@ -7,13 +7,25 @@
     <permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" android:label="Mount and unmount filesystems" android:protectionLevel="normal"></permission>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".Toggles"
+        <activity android:name=".Main"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH_LONG_PRESS" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
-
+        <activity android:name=".SystemToggles"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".MountToggles"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".ButtonToggles"
+                  android:label="@string/app_name">
+        </activity>
     </application>
 </manifest>

@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/string_no_reboot" android:id="@+id/no_reboot_string"></TextView>
-    <RelativeLayout android:layout_height="wrap_content" android:id="@+id/relativeLayout1" android:layout_width="match_parent">
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:id="@+id/button_phone_toggle" android:text="@string/toggle_phone"></Button>
-        <Button android:layout_height="wrap_content" android:id="@+id/button_led_toggle" android:layout_width="wrap_content" android:text="@string/toggle_led" android:layout_toRightOf="@+id/button_phone_toggle"></Button>
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp" >
+        </FrameLayout>
+    </LinearLayout>
+	<RelativeLayout android:id="@+id/relative_bottom" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom|center">
+        <Button android:layout_width="wrap_content" android:id="@+id/button_reboot" android:layout_height="wrap_content" android:text="Reboot"></Button>
+        <Button android:text="Close" android:layout_width="wrap_content" android:id="@+id/button_close" android:layout_height="wrap_content" android:layout_toRightOf="@+id/button_reboot"></Button>
     </RelativeLayout>
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/reboot_text" android:text="@string/string_reboot_req"></TextView>
-    <RelativeLayout android:id="@+id/relativeLayout2" android:layout_width="match_parent" android:layout_height="wrap_content">
-        <Button android:layout_width="wrap_content" android:id="@+id/button_physical_button" android:layout_height="wrap_content" android:layout_toRightOf="@+id/button_sdcard" android:text="@string/toggle_physical_button"></Button>
-        <Button android:text="@string/toggle_sdcard" android:layout_width="wrap_content" android:id="@+id/button_sdcard" android:layout_height="wrap_content"></Button>
-    </RelativeLayout>
-    <Button android:layout_height="wrap_content" android:id="@+id/button_reboot" android:layout_width="wrap_content" android:text="@string/string_reboot"></Button>
-</LinearLayout>
+</TabHost>
