@@ -34,6 +34,8 @@ public class Main extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    this.setContentView(R.layout.main);
+	    
+	    sPrefs = getSharedPreferences(prefs_name,0);
 
 	    Resources res = this.getResources();
 	    TabHost tabHost = this.getTabHost();
@@ -133,7 +135,7 @@ public class Main extends TabActivity {
     	need_reboot = sPrefs.getBoolean(reboot_tag, false);
     	
     	if(need_reboot){
-    		editor.putBoolean(reboot_tag, true);
+    		editor.putBoolean(reboot_tag, false);
     		editor.commit();
     		showDialog(DIALOG_REBOOT_REQUESTED);
     	} else {
@@ -146,6 +148,6 @@ public class Main extends TabActivity {
     }
     
     public void reboot(){
-    	run.Com("reboot");
+    	run.suCom("reboot");
     }
 }

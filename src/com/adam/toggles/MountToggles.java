@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class MountToggles extends Activity {
 	
-	final String TAG = "Toggles"; 
+	final String TAG = "MountToggles"; 
 	final String phone_tag = "phoneButton";
 	final String sdcard_tag = "sdcardSwitch";
 	final String led_tag = "ledSwitch";

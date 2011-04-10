@@ -13,12 +13,10 @@ import android.widget.ToggleButton;
 
 public class SystemToggles extends Activity {
 	
-	final String TAG = "Toggles"; 
+	final String TAG = "SystemToggles"; 
 	final String pq_tag = "pqSwitch";
 	final String phone_tag = "phoneButton";
-	final String sdcard_tag = "sdcardSwitch";
 	final String led_tag = "ledSwitch";
-	final String physical_button_tag = "physicalButton";
 	final String reboot_tag = "need_reboot";
 	
 	Context context;
@@ -33,7 +31,6 @@ public class SystemToggles extends Activity {
 	
     NativeTasks run = new NativeTasks();
 	
-	String command;
 	ToggleButton phoneButton, ledButton, pqButton;
 	
     /** Called when the activity is first created. */

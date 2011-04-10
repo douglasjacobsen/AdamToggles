@@ -98,6 +98,7 @@ public class ButtonToggles extends Activity {//{{{
         this.search.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = SEARCH_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -108,6 +109,7 @@ public class ButtonToggles extends Activity {//{{{
         this.home.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = HOME_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -118,6 +120,7 @@ public class ButtonToggles extends Activity {//{{{
         this.menu.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = MENU_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -128,6 +131,7 @@ public class ButtonToggles extends Activity {//{{{
         this.capback.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = CAPBACK_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -138,6 +142,7 @@ public class ButtonToggles extends Activity {//{{{
         this.volup.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = VOLUP_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -148,6 +153,7 @@ public class ButtonToggles extends Activity {//{{{
         this.voldown.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = VOLDOWN_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
@@ -158,6 +164,7 @@ public class ButtonToggles extends Activity {//{{{
         this.physback.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
 				curButton = PHYSBACK_BUTTON;
+				Log.w(TAG,"curButton = "+curButton);
 				for(int i = 0; i < nTypes; i++){
 					temp_toggled[i] = toggled[curButton][i];
 				}
