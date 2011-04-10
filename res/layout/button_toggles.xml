@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/tab2">
+		<TextView android:text="Physical Button" android:id="@+id/text_physical" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		<Button android:text="Button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button_physical_button"></Button>
+		<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relative_physical" android:layout_width="match_parent" android:orientation="horizontal">
+    		<Spinner android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/spinner_physical"></Spinner>
+    		<CheckBox android:text="Wake" android:id="@+id/checkbox_physical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/spinner_physical"></CheckBox>
+    	</RelativeLayout>
+    	<TextView android:text="Power Switch" android:id="@+id/text_power" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relative_power" android:layout_width="match_parent" android:orientation="horizontal">
+    		<Spinner android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/spinner_power"></Spinner>
+    		<CheckBox android:text="Wake" android:id="@+id/checkbox_power" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/spinner_power"></CheckBox>
+    	</RelativeLayout>
+    	<TextView android:text="Up Bumper" android:id="@+id/text_up" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relative_up" android:layout_width="match_parent" android:orientation="horizontal">
+    		<Spinner android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/spinner_up"></Spinner>
+    		<CheckBox android:text="Wake" android:id="@+id/checkbox_up" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/spinner_up"></CheckBox>
+    	</RelativeLayout>
+    	<TextView android:text="Down Bumper" android:id="@+id/text_down" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<RelativeLayout android:layout_height="wrap_content" android:id="@+id/relative_down" android:layout_width="match_parent" android:orientation="horizontal">
+    			<Spinner android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/spinner_down"></Spinner>
+    			<CheckBox android:text="Wake" android:id="@+id/checkbox_down" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@+id/spinner_down"></CheckBox>
+    		</RelativeLayout>
+			<Button android:text="Save Button Layout" android:id="@+id/button_save" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+   	</LinearLayout>

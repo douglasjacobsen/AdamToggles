@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/tab2">
+    	<TextView android:text="Main SDCard - /mnt/sdcard" android:id="@+id/text_sdswitch" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    	<Button android:text="Button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button_sdcard"></Button>
+			<RadioGroup android:id="@+id/radioGroup1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+      			<RadioButton android:layout_height="wrap_content" android:id="@+id/radio_internal" android:text="Internal" android:layout_width="wrap_content" android:checked="true"></RadioButton>
+     			<RadioButton android:layout_height="wrap_content" android:id="@+id/radio_external" android:text="External" android:layout_width="wrap_content"></RadioButton>
+    		</RadioGroup>
+   		<TextView android:text="Main USB Media - /mnt/usbdisk" android:id="@+id/text_usbswitch" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+   		<RadioGroup android:id="@+id/radioGroup2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+  			<RadioButton android:layout_height="wrap_content" android:id="@+id/radio_sda" android:text="sda1" android:layout_width="wrap_content" android:checked="true"></RadioButton>
+       		<RadioButton android:layout_height="wrap_content" android:id="@+id/radio_sdb" android:text="sdb2" android:layout_width="wrap_content"></RadioButton>
+    	</RadioGroup>    			
+   		<TextView android:text="(re)Mount Media" android:id="@+id/text_usbmount" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+   		<Button android:text="Mount" android:id="@+id/button_usbmount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top"></Button>
+   	</LinearLayout>
