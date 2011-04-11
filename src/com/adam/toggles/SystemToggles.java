@@ -1,6 +1,8 @@
 package com.adam.toggles;
 
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -68,7 +70,7 @@ public class SystemToggles extends Activity {//{{{
 
 		this.data2loopbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				showDialog(DIALOG_DATA2LOOP);
+				toggleData2Loop();
 			}
 		});
 		state = sPrefs.getBoolean(data2loop_tag, false);
@@ -100,35 +102,33 @@ public class SystemToggles extends Activity {//{{{
 	@Override
 		protected Dialog onCreateDialog(int id, Bundle args){//{{{
 			super.onCreateDialog(id,args);
-			boolean state;
 			Dialog dialog = null;
 			AlertDialog alert;
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			switch(id){
 				case DIALOG_DATA2LOOP:
-					state = sPrefs.getBoolean(data2loop_tag,false);
-					if(state){
-						Toast toast = Toast.makeText(context,"Data2Loop is already toggled. You can only un-toggle this by wiping data and cache in recovery.",duration);
-						toast.show();
-						data2loopbutton.setChecked(true);
-						return null;
-					} else {
-						builder.setTitle("Toggle Data2Loop:");
-						builder.setMessage("Are you sure you want to toggle data2loop now? This is only un-toggleable by wiping data and cache in recovery.");
-						builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which){
-								toggleData2Loop();
-							}
-						});
-						builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which){
-								clearData2Loop();
-							}
-						});
-						alert = builder.create();
-						dialog = alert;
-					}
+					builder.setTitle("Toggle Data2Loop:");
+					builder.setMessage("Are you sure you want to toggle data2loop now? This is only un-toggleable by wiping data and cache in recovery.");
+					builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which){
+							SharedPreferences.Editor editor = sPrefs.edit();
+							Toast toast;
+							
+							toast = Toast.makeText(context,"Data2Loop is now toggled. Please reboot to finish turning this on.",duration);
+							editor.putBoolean(data2loop_tag, true);
+							editor.putBoolean(reboot_tag,true);
+							editor.commit();
+							toast.show();
+						}
+					});
+					builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which){
+							clearData2Loop();
+						}
+					});
+					alert = builder.create();
+					dialog = alert;
 					break;
 			}
 			return dialog;
@@ -214,27 +214,35 @@ public class SystemToggles extends Activity {//{{{
 
 	public void toggleData2Loop(){//{{{
 		boolean state;
-		SharedPreferences.Editor editor = sPrefs.edit();
 		Toast toast;
-
-		state = sPrefs.getBoolean(data2loop_tag,false);
-
-		if(!state){
-			toast = Toast.makeText(context,"Data2Loop is now toggled. Please reboot to finish turning this on.",duration);
-			editor.putBoolean(data2loop_tag,true);
-			editor.putBoolean(reboot_tag,true);
-			editor.commit();
+		File data2loopstartfile = new File("/data/data2loop.finish");
+		
+		state = sPrefs.getBoolean(data2loop_tag, false);
+		if(data2loopstartfile.exists()){
+			Log.w(TAG,"d2l file exists");
+			toast = Toast.makeText(context,"Data2Loop is already toggled. You can only un-toggle this by wiping data and cache in recovery.",duration);
 			toast.show();
+			data2loopbutton.setChecked(true);
+		} else if(state && !data2loopstartfile.exists()){
+			Log.w(TAG,"state is true && d2l file doesn't exist");
+			clearData2Loop();
+		} else {
+			Log.w(TAG,"state is false && d2l file doesn't exist");
+			showDialog(DIALOG_DATA2LOOP);
 		}
 	}//}}}
 	
 	public void clearData2Loop(){
 		boolean state;
-		
+		SharedPreferences.Editor editor = sPrefs.edit();
 		state = sPrefs.getBoolean(data2loop_tag, false);
 		
 		if(state==false){
 			data2loopbutton.setChecked(false);
+		} else {
+			data2loopbutton.setChecked(false);
+			editor.putBoolean(data2loop_tag, false);
+			editor.commit();
 		}
 	}
 }//}}}

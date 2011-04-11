@@ -69,7 +69,7 @@ public class Main extends TabActivity {
             }	
         });
         
-        final Button close = (Button) findViewById(R.id.button_reboot);
+        final Button close = (Button) findViewById(R.id.button_close);
         close.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	finish();
@@ -127,8 +127,8 @@ public class Main extends TabActivity {
     	super.onDestroy();
     }//}}}
     
-    @Override
     public void onBackPressed(){
+    	Log.w(TAG,"BACK BUTTON WAS PRESSED --------");
     	SharedPreferences.Editor editor = sPrefs.edit();
     	boolean need_reboot;
     	
