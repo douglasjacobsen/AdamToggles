@@ -1,7 +1,6 @@
 package com.adam.toggles;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import java.io.File;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,15 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MountToggles extends Activity {
 	
 	final String TAG = "MountToggles"; 
-	final String phone_tag = "phoneButton";
-	final String sdcard_tag = "sdcardSwitch";
-	final String led_tag = "ledSwitch";
-	final String physical_button_tag = "physicalButton";
+	final String main_sdcard_tag = "mainSdcard";
+	final String sec_sdcard_tag = "secondarySdcard";
 	
 	Context context;
 	
@@ -28,98 +26,99 @@ public class MountToggles extends Activity {
 	final int DIALOG_REBOOT = 1;
 	final int DIALOG_REBOOT_REQUESTED = 2;
 	
-	final int n_physical_buttons = 7;
-	final String[] physical_files = {"qwerty","qwerty","qwerty","qwerty","gpio-keys","gpio-keys","gpio-keys"};
-	final String[] physical_names = {"SEARCH","HOME","MENU","BACK","VOLUME_UP","VOLUME_DOWN","BACK"};
-	final String[] physical_wakes = {"WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED", "WAKE_DROPPED","WAKE"};
-	final String[] physical_button_tags = {"Search","Home","Menu","Capacitive Back","Volume up","Volume down", "Hardware Back"};
-	final int[] physical_codes = {217, 102, 139, 158, 115, 114, 158};
-	final CharSequence[] physical_buttons = (CharSequence[])physical_button_tags;
-	boolean [] physical_checked = {false, false, false, false, false, false, false};
-	
 	private SharedPreferences sPrefs;
     private static final String prefs_name = "toggle-prefs";
 	
     NativeTasks run = new NativeTasks();
-	Runtime rt;
-	Process process;
-	DataOutputStream toProcess;
-    final Object ReadLock = new Object();
-    final Object WriteLock = new Object();
-    boolean need_reboot;
-
-    ByteArrayOutputStream inpbuffer = new ByteArrayOutputStream();
-    ByteArrayOutputStream errbuffer = new ByteArrayOutputStream();
 	
 	String command;
-	Button phoneButton, ledButton, sdcardButton, physicalButton, rebootButton;
+	Button swapSdbutton, refreshButton;
+	TextView mainSDPath, secSDPath;
 	
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
+    	File sec_sdcard_path = new File("/dev/block/mmcblk2p1");
+    	boolean state;
     	super.onCreate(savedInstanceState);
         //this.setContentView(R.layout.main);
         this.setContentView(R.layout.mount_toggles);
-        
-        context = this;
-        
-        this.sdcardButton = (Button)this.findViewById(R.id.button_sdcard);
-        need_reboot = false;
-        
-        try{
-        	process = Runtime.getRuntime().exec("su");
-        	toProcess = new DataOutputStream(process.getOutputStream());
-
-        } catch (Exception err){
-		}
-        
         sPrefs = getSharedPreferences(prefs_name,0);
+        context = this;
+    
+        this.swapSdbutton = (Button)this.findViewById(R.id.button_swap_sd);
+        this.mainSDPath = (TextView)this.findViewById(R.id.text_main_sd_path);
+        this.secSDPath = (TextView)this.findViewById(R.id.text_sec_sd_path);
+        this.refreshButton = (Button)this.findViewById(R.id.button_refresh_mounts);
         
-        for(int i = 0; i < n_physical_buttons; i++){
-        	physical_checked[i] = sPrefs.getBoolean(physical_button_tags[i], false);
+        state = sPrefs.getBoolean(main_sdcard_tag,false);
+        if(state){
+        	this.mainSDPath.setText("/mnt/sdcard2");
+        } else {
+        	this.mainSDPath.setText("/mnt/sdcard");
         }
         
+        state = sPrefs.getBoolean(sec_sdcard_tag,false);
+        if(sec_sdcard_path.exists()){
+        	if(state){
+        		this.mainSDPath.setText("/mnt/sdcard");
+        	} else {
+        		this.mainSDPath.setText("/mnt/sdcard2");
+        	}
+        } else {
+        	this.secSDPath.setText("Not Plugged In.");
+        }
         
-        this.sdcardButton.setOnClickListener(new OnClickListener() {
+        this.refreshButton.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
-        		toggleSdcard();
-        		need_reboot=true;
+        		refreshStates();
+        	}
+        });
+        
+        this.swapSdbutton.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		swapSdCards();
         	}
         });
     }
     
-    public void toggleSdcard(){
-    	int temp;
+    public void refreshStates(){
+    	File secSdCard0 = new File("/dev/block/mmcblk0p1");
+    	File secSdCard1 = new File("/dev/block/mmcblk1p1");
+    	File secSdCard2 = new File("/dev/block/mmcblk2p1");
+    	boolean main_state, sec_state, sec_plugged;
+    	
+    	main_state = sPrefs.getBoolean(main_sdcard_tag, false);
+    	sec_state = sPrefs.getBoolean(sec_sdcard_tag, false);
+    	
+    	sec_plugged = secSdCard0.exists() || secSdCard1.exists() || secSdCard2.exists();
+    	
+    	if(main_state){
+    		this.mainSDPath.setText("/mnt/sdcard2");
+    	} else {
+    		this.mainSDPath.setText("/mnt/sdcard");
+    	}
+    
+    	if(sec_plugged){
+    		if(sec_state){
+    			this.secSDPath.setText("/mnt/sdcard");
+    		} else {
+    			this.secSDPath.setText("/mnt/sdcard2");
+    		}
+    	} else {
+    		this.secSDPath.setText("Not Plugged In.");
+    	}
+    }
+    
+    public void writeVold(){
+    	boolean main_state;
     	String command;
-    	SharedPreferences.Editor editor = sPrefs.edit();
     	Toast toast;
     	
-    	temp = sPrefs.getInt(sdcard_tag, 0);
+    	main_state = sPrefs.getBoolean(main_sdcard_tag, false);
     	
-    	if(temp == 0){
+    	if(main_state){
     		try{
     			command = "echo '## Vold 2.0 NVIDIA Harmony fstab' > /system/etc/vold.fstab";
-    			run.suCom(command);
-    			/*command = "echo '#######################' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## Regular device mount' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '##' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## Format: dev_mount <label> <mount_point> <part> <sysfs_path1...>' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## label        - Label for the volume' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## mount_point  - Where the volume will be mounted' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## part         - Partition # (1 based), or 'auto' for first usable partition.' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## <sysfs_path> - List of sysfs paths to source devices' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '######################' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '' >> /system/etc/vold.fstab";*/
     			run.suCom(command);
     			command = "echo '#dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.3/mmc_host/mmc0 /devices/platform/tegra-sdhci.3/mmc_host/mmc1' >> /system/etc/vold.fstab";
     			run.suCom(command);
@@ -131,43 +130,15 @@ public class MountToggles extends Activity {
     			run.suCom(command);
     			command = "echo 'dev_mount usbdisk /mnt/usbdisk auto /devices/platform/tegra-ehci' >> /system/etc/vold.fstab";
     			run.suCom(command);
-    			
-    			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard";
-    			run.suCom(command);
-    			command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard2";
-    			run.suCom(command);
-    			
-    			editor.putInt(sdcard_tag, 1);
+    						
     			Log.w(TAG,"Sdcard toggle is on");
-    			toast = Toast.makeText(context,"SDCard mount points are now swapped. Reboot for them to take effect.",duration);
+    			toast = Toast.makeText(context,"SDCard mount points are now swapped.",duration);
     			toast.show();
     		} catch (Exception e){
     		}
     	} else {
     		try {
     			command = "echo '## Vold 2.0 NVIDIA Harmony fstab' > /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '#######################' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## Regular device mount' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '##' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## Format: dev_mount <label> <mount_point> <part> <sysfs_path1...>' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## label        - Label for the volume' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## mount_point  - Where the volume will be mounted' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## part         - Partition # (1 based), or 'auto' for first usable partition.' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '## <sysfs_path> - List of sysfs paths to source devices' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '######################' >> /system/etc/vold.fstab";
-    			run.suCom(command);
-    			command = "echo '' >> /system/etc/vold.fstab";
     			run.suCom(command);
     			command = "echo '#dev_mount sdcard /mnt/sdcard auto /devices/platform/tegra-sdhci.3/mmc_host/mmc0 /devices/platform/tegra-sdhci.3/mmc_host/mmc1' >> /system/etc/vold.fstab";
     			run.suCom(command);
@@ -180,20 +151,63 @@ public class MountToggles extends Activity {
     			command = "echo 'dev_mount usbdisk /mnt/usbdisk auto /devices/platform/tegra-ehci' >> /system/etc/vold.fstab";
     			run.suCom(command);
     			
-    			command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard";
-    			run.suCom(command);
-    			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard2";
-    			run.suCom(command);
-    			
-    			editor.putInt(sdcard_tag, 0);
     			Log.w(TAG,"Sdcard toggle is off");
-    			toast = Toast.makeText(context,"SDCard mount points are now restored to normal. Reboot for them to take effect.",duration);
+    			toast = Toast.makeText(context,"SDCard mount points are now restored to normal.",duration);
     			toast.show();
     		} catch (Exception e){
     		}
     	}
-    	editor.commit();
     }
     
+    public void swapSdCards(){
+    	String command;
+    	boolean main_state, sec_state, sec_plugged;
+    	File secSdCard0 = new File("/dev/block/mmcblk0p1");
+    	File secSdCard1 = new File("/dev/block/mmcblk1p1");
+    	File secSdCard2 = new File("/dev/block/mmcblk2p1");
+    	SharedPreferences.Editor editor = sPrefs.edit();
+    	
+    	main_state = sPrefs.getBoolean(main_sdcard_tag, false);
+    	sec_state = sPrefs.getBoolean(sec_sdcard_tag, false);
+    	sec_plugged = secSdCard0.exists() || secSdCard1.exists() || secSdCard2.exists();
+    	
+    	if(main_state){
+    		command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard";
+    		run.suCom(command);
+    		this.mainSDPath.setText("/mnt/sdcard");
+    		editor.putBoolean(main_sdcard_tag,!main_state);
+    	} else {
+    		command = "mount -t vfat /dev/block/mmcblk3p1 /mnt/sdcard2";
+    		run.suCom(command);
+    		this.mainSDPath.setText("/mnt/sdcard2");
+    		editor.putBoolean(main_sdcard_tag,!main_state);
+    	}
+    	
+    	if(sec_plugged){
+    		if(sec_state){
+    			command = "mount -t vfat /dev/block/mmcblk0p1 /mnt/sdcard2";
+    			run.suCom(command);
+    			command = "mount -t vfat /dev/block/mmcblk1p1 /mnt/sdcard2";
+    			run.suCom(command);
+    			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard2";
+    			run.suCom(command);
+    			this.secSDPath.setText("/mnt/sdcard2");
+    			editor.putBoolean(sec_sdcard_tag,!sec_state);
+    		} else {
+    			command = "mount -t vfat /dev/block/mmcblk0p1 /mnt/sdcard";
+    			run.suCom(command);
+    			command = "mount -t vfat /dev/block/mmcblk1p1 /mnt/sdcard";
+    			run.suCom(command);
+    			command = "mount -t vfat /dev/block/mmcblk2p1 /mnt/sdcard";
+    			run.suCom(command);
+    			this.secSDPath.setText("/mnt/sdcard");
+    			editor.putBoolean(sec_sdcard_tag,!sec_state);
+    		}
+    	} else {
+    		this.secSDPath.setText("Not Plugged In.");
+    	}
     
+    	editor.commit();
+    	writeVold();
+    }
 }
