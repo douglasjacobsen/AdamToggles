@@ -228,6 +228,11 @@ public class ButtonToggles extends Activity {//{{{
 			
 			for(i = 0; i < nButtons; i++){
 				command = "echo 'key "+button_codes[i];
+				if(button_codes[i] == 114){
+					command = command +" VOLUME_DOWN";
+				} else if (button_codes[i] == 115){
+					command = command +" VOLUME_UP";
+				}
 				for(j = 0; j < nTypes; j++){
 					if(toggled[i][j]){
 						command = command+" "+physical_types[j].toUpperCase();

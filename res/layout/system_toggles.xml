@@ -6,4 +6,6 @@
 		<ToggleButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="led" android:id="@+id/button_led_toggle"></ToggleButton>
     	<TextView android:text="Phone / 3G Toggle" android:id="@+id/text_phone" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 		<ToggleButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="led" android:id="@+id/button_phone_toggle"></ToggleButton>
+		<TextView android:text="data2loop Toggle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/text_data2loop"></TextView>
+		<ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/button_data2loop_toggle"></ToggleButton>
 	</LinearLayout>
