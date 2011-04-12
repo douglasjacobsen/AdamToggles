@@ -27,7 +27,7 @@ public class SystemToggles extends Activity {//{{{
 
 	Context context;
 
-	final int duration = Toast.LENGTH_SHORT;
+	final int duration = Toast.LENGTH_LONG;
 	final int DIALOG_DATA2LOOP = 0;
 
 	private SharedPreferences sPrefs;

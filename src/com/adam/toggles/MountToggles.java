@@ -21,10 +21,7 @@ public class MountToggles extends Activity {
 	
 	Context context;
 	
-	final int duration = Toast.LENGTH_SHORT;
-	final int DIALOG_SELECT_PHYSICAL_BUTTON = 0;
-	final int DIALOG_REBOOT = 1;
-	final int DIALOG_REBOOT_REQUESTED = 2;
+	final int duration = Toast.LENGTH_LONG;
 	
 	private SharedPreferences sPrefs;
     private static final String prefs_name = "toggle-prefs";
@@ -33,12 +30,11 @@ public class MountToggles extends Activity {
 	
 	String command;
 	Button swapSdbutton, refreshButton;
+	Button mainUsbbutton;
 	TextView mainSDPath, secSDPath;
 	
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
-    	File sec_sdcard_path = new File("/dev/block/mmcblk2p1");
-    	boolean state;
     	super.onCreate(savedInstanceState);
         //this.setContentView(R.layout.main);
         this.setContentView(R.layout.mount_toggles);
@@ -49,25 +45,10 @@ public class MountToggles extends Activity {
         this.mainSDPath = (TextView)this.findViewById(R.id.text_main_sd_path);
         this.secSDPath = (TextView)this.findViewById(R.id.text_sec_sd_path);
         this.refreshButton = (Button)this.findViewById(R.id.button_refresh_mounts);
+        this.mainUsbbutton = (Button)this.findViewById(R.id.button_mount_main_usb);
         
-        state = sPrefs.getBoolean(main_sdcard_tag,false);
-        if(state){
-        	this.mainSDPath.setText("/mnt/sdcard2");
-        } else {
-        	this.mainSDPath.setText("/mnt/sdcard");
-        }
-        
-        state = sPrefs.getBoolean(sec_sdcard_tag,false);
-        if(sec_sdcard_path.exists()){
-        	if(state){
-        		this.mainSDPath.setText("/mnt/sdcard");
-        	} else {
-        		this.mainSDPath.setText("/mnt/sdcard2");
-        	}
-        } else {
-        	this.secSDPath.setText("Not Plugged In.");
-        }
-        
+		refreshStates();
+       
         this.refreshButton.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
         		refreshStates();
@@ -77,6 +58,12 @@ public class MountToggles extends Activity {
         this.swapSdbutton.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
         		swapSdCards();
+        	}
+        });
+        
+        this.mainUsbbutton.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		manageMainUsb();
         	}
         });
     }
@@ -107,6 +94,13 @@ public class MountToggles extends Activity {
     	} else {
     		this.secSDPath.setText("Not Plugged In.");
     	}
+    }
+    
+    public void manageMainUsb(){
+    	String command;
+    	
+    	command = "umount /mnt/usbdisk";
+    	run.suCom(command);
     }
     
     public void writeVold(){

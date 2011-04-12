@@ -7,5 +7,11 @@
    			<TextView android:text="Secondary SDCard - " android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/text_main_sd" android:id="@+id/text_sec_sd"></TextView>
    			<TextView android:text="" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_toRightOf="@+id/text_sec_sd" android:layout_below="@+id/text_main_sd_path" android:id="@+id/text_sec_sd_path"></TextView>
    			<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button_swap_sd" android:text="Swap SD Card Mount Points" android:layout_below="@+id/text_sec_sd"></Button>
+   			<TextView android:layout_width="wrap_content" android:layout_below="@+id/button_swap_sd" android:text="Main USB Drive - " android:layout_height="wrap_content" android:id="@+id/text_main_usb" android:visibility="invisible"></TextView>
+   			<TextView android:layout_toRightOf="@+id/text_main_usb" android:layout_width="wrap_content" android:id="@+id/text_main_usb_path" android:text="" android:layout_height="wrap_content" android:visibility="invisible"></TextView>
+   			<Button android:layout_width="wrap_content" android:layout_below="@+id/text_main_usb" android:text="Unmount Main USB Drive" android:layout_height="wrap_content" android:id="@+id/button_mount_main_usb"></Button>
+   			<TextView android:layout_width="wrap_content" android:text="Secondary USB Drive - " android:layout_height="wrap_content" android:id="@+id/text_sec_usb" android:layout_below="@+id/button_mount_main_usb" android:visibility="invisible"></TextView>
+   			<TextView android:layout_width="wrap_content" android:id="@+id/text_sec_usb_path" android:text="" android:layout_height="wrap_content" android:layout_toRightOf="@+id/text_sec_usb" android:layout_below="@+id/button_mount_main_usb" android:visibility="invisible"></TextView>
+   			<Button android:layout_width="wrap_content" android:text="(Un)Mount Secondary USB Drive" android:layout_height="wrap_content" android:id="@+id/button_mount_sec_usb" android:layout_below="@+id/text_sec_usb" android:visibility="invisible"></Button>
    		</RelativeLayout>
    	</LinearLayout>
