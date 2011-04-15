@@ -27,5 +27,6 @@
         <activity android:name=".ButtonToggles"
                   android:label="@string/app_name">
         </activity>
+        <activity android:name=".LocationToggles"></activity>
     </application>
 </manifest>

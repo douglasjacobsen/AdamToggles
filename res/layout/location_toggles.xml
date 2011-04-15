@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:id="@+id/tab4">
+    	<TextView android:text="Gps Location" android:id="@+id/text_gps" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    	<Spinner android:id="@+id/spinner_gps" android:layout_height="wrap_content" android:layout_width="wrap_content"></Spinner>
+    	<TextView android:text="USB Keyboard Layout" android:id="@+id/text_keyboard" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    	<Spinner android:id="@+id/spinner_keyboard" android:layout_height="wrap_content" android:layout_width="wrap_content"></Spinner>
+    	<Button android:text="Save Changes" android:id="@+id/button_save_location" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	</LinearLayout>

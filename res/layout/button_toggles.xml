@@ -61,41 +61,25 @@
 			<ToggleButton android:layout_width="wrap_content" android:id="@+id/capback_call" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
 			<ToggleButton android:layout_width="wrap_content" android:id="@+id/capback_endcall" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
 		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:id="@+id/row_physback" android:layout_width="wrap_content">
+			<TextView android:layout_width="wrap_content" android:text="Physical Back" android:padding="3dip" android:id="@+id/name_physback" android:layout_height="wrap_content"></TextView>
+			<ToggleButton android:id="@+id/physback_wake" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_back" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_power" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_home" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_menu" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_search" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_camera" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_call" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+			<ToggleButton android:id="@+id/physback_endcall" android:text="ToggleButton" android:padding="3dip" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+		</TableRow>
 		<TableRow android:layout_width="wrap_content" android:id="@+id/row_volup" android:layout_height="wrap_content">
 			<TextView android:text="Volume Up" android:id="@+id/name_volup" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="3dip"></TextView>
 			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_wake" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_back" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_power" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_home" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_menu" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_search" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_camera" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_call" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/volup_endcall" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
 		</TableRow>
 		<TableRow android:layout_width="wrap_content" android:id="@+id/row_voldown" android:layout_height="wrap_content">
 			<TextView android:text="Volume Down" android:id="@+id/name_voldown" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="3dip"></TextView>
 			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_wake" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_back" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_power" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_home" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_menu" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_search" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_camera" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_call" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/voldown_endcall" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-		</TableRow>
-		<TableRow android:layout_width="wrap_content" android:id="@+id/row_physback" android:layout_height="wrap_content">
-			<TextView android:text="Physical Back" android:id="@+id/name_physback" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="3dip"></TextView>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_wake" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_back" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_power" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_home" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_menu" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_search" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_camera" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_call" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
-			<ToggleButton android:layout_width="wrap_content" android:id="@+id/physback_endcall" android:layout_height="wrap_content" android:padding="3dip"></ToggleButton>
 		</TableRow>
 	</TableLayout>
 	<Button android:layout_width="wrap_content" android:text="Save Mapping" android:layout_height="wrap_content" android:id="@+id/button_save_mapping"></Button>

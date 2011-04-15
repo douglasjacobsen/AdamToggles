@@ -64,17 +64,17 @@ public class ButtonToggles extends Activity {//{{{
     ByteArrayOutputStream errbuffer = new ByteArrayOutputStream();
 	
 	String command;
-	final String [] search_tags = {"search_wake","search_back","seach_power","search_home","search_menu","search_search","search_camera"
+	final String [] search_tags = {"search_wake","search_back","search_power","search_home","search_menu","search_search","search_camera"
 		,"search_call","search_endcall"};
-	final String[] home_tags = {"home_wake","home_back","seach_power","home_home","home_menu","home_search","home_camera","home_call","home_endcall"};
-	final String[] menu_tags = {"menu_wake","menu_back","seach_power","menu_home","menu_menu","menu_search","menu_camera","menu_call","menu_endcall"};
-	final String[] capback_tags = 	{"capback_wake","capback_back","seach_power","capback_home","capback_menu","capback_search"
+	final String[] home_tags = {"home_wake","home_back","home_power","home_home","home_menu","home_search","home_camera","home_call","home_endcall"};
+	final String[] menu_tags = {"menu_wake","menu_back","menu_power","menu_home","menu_menu","menu_search","menu_camera","menu_call","menu_endcall"};
+	final String[] capback_tags = 	{"capback_wake","capback_back","capback_power","capback_home","capback_menu","capback_search"
 		,"capback_camera","capback_call","capback_endcall"};
-	final String[] volup_tags = 	{"volup_wake","volup_back","seach_power","volup_home","volup_menu","volup_search"
+	final String[] volup_tags = 	{"volup_wake","volup_back","volup_power","volup_home","volup_menu","volup_search"
 		,"volup_camera","volup_call","volup_endcall"};
-	final String[] voldown_tags = 	{"voldown_wake","voldown_back","seach_power","voldown_home","voldown_menu","voldown_search"
+	final String[] voldown_tags = 	{"voldown_wake","voldown_back","voldown_power","voldown_home","voldown_menu","voldown_search"
 		,"voldown_camera","voldown_call","voldown_endcall"};
-	final String[] physback_tags = 	{"physback_wake","physback_back","seach_power","physback_home","physback_menu","physback_search"
+	final String[] physback_tags = 	{"physback_wake","physback_back","physback_power","physback_home","physback_menu","physback_search"
 		,"physback_camera","physback_call","physback_endcall"};
 	ToggleButton[] search, home, menu, capback, volup, voldown, physback; 
 	boolean[] search_toggles, home_toggles, menu_toggles, capback_toggles, volup_toggles, voldown_toggles, physback_toggles;
@@ -146,24 +146,7 @@ public class ButtonToggles extends Activity {//{{{
 		this.capback[type_endcall] = (ToggleButton)this.findViewById(R.id.capback_endcall);
 
 		this.volup[type_wake] = (ToggleButton)this.findViewById(R.id.volup_wake);
-		this.volup[type_back] = (ToggleButton)this.findViewById(R.id.volup_back);
-		this.volup[type_power] = (ToggleButton)this.findViewById(R.id.volup_power);
-		this.volup[type_home] = (ToggleButton)this.findViewById(R.id.volup_home);
-		this.volup[type_menu] = (ToggleButton)this.findViewById(R.id.volup_menu);
-		this.volup[type_search] = (ToggleButton)this.findViewById(R.id.volup_search);
-		this.volup[type_camera] = (ToggleButton)this.findViewById(R.id.volup_camera);
-		this.volup[type_call] = (ToggleButton)this.findViewById(R.id.volup_call);
-		this.volup[type_endcall] = (ToggleButton)this.findViewById(R.id.volup_endcall);
-
 		this.voldown[type_wake] = (ToggleButton)this.findViewById(R.id.voldown_wake);
-		this.voldown[type_back] = (ToggleButton)this.findViewById(R.id.voldown_back);
-		this.voldown[type_power] = (ToggleButton)this.findViewById(R.id.voldown_power);
-		this.voldown[type_home] = (ToggleButton)this.findViewById(R.id.voldown_home);
-		this.voldown[type_menu] = (ToggleButton)this.findViewById(R.id.voldown_menu);
-		this.voldown[type_search] = (ToggleButton)this.findViewById(R.id.voldown_search);
-		this.voldown[type_camera] = (ToggleButton)this.findViewById(R.id.voldown_camera);
-		this.voldown[type_call] = (ToggleButton)this.findViewById(R.id.voldown_call);
-		this.voldown[type_endcall] = (ToggleButton)this.findViewById(R.id.voldown_endcall);
 
 		this.physback[type_wake] = (ToggleButton)this.findViewById(R.id.physback_wake);
 		this.physback[type_back] = (ToggleButton)this.findViewById(R.id.physback_back);
@@ -184,13 +167,14 @@ public class ButtonToggles extends Activity {//{{{
 			this.menu[i].setChecked(menu_toggles[i]);
 			capback_toggles[i] = sPrefs.getBoolean(capback_tags[i], false);
 			this.capback[i].setChecked(capback_toggles[i]);
-			volup_toggles[i] = sPrefs.getBoolean(volup_tags[i], false);
-			this.volup[i].setChecked(volup_toggles[i]);
-			voldown_toggles[i] = sPrefs.getBoolean(voldown_tags[i], false);
-			this.voldown[i].setChecked(voldown_toggles[i]);
 			physback_toggles[i] = sPrefs.getBoolean(physback_tags[i], false);
 			this.physback[i].setChecked(physback_toggles[i]);
 		}
+		
+		volup_toggles[type_wake] = sPrefs.getBoolean(volup_tags[type_wake], false);
+		this.volup[type_wake].setChecked(volup_toggles[type_wake]);
+		voldown_toggles[type_wake] = sPrefs.getBoolean(voldown_tags[type_wake], false);
+		this.voldown[type_wake].setChecked(voldown_toggles[type_wake]);
 
 		this.search[type_wake].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
@@ -199,42 +183,42 @@ public class ButtonToggles extends Activity {//{{{
 		});
 		this.search[type_back].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_back] = search[type_back].isChecked();
+				setSearch(type_back);
 			}
 		});
 		this.search[type_power].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_power] = search[type_power].isChecked();
+				setSearch(type_power);
 			}
 		});
 		this.search[type_home].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_home] = search[type_home].isChecked();
+				setSearch(type_home);
 			}
 		});
 		this.search[type_menu].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_menu] = search[type_menu].isChecked();
+				setSearch(type_menu);
 			}
 		});
 		this.search[type_search].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_search] = search[type_search].isChecked();
+				setSearch(type_search);
 			}
 		});
 		this.search[type_camera].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_camera] = search[type_camera].isChecked();
+				setSearch(type_camera);
 			}
 		});
 		this.search[type_call].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_call] = search[type_call].isChecked();
+				setSearch(type_call);
 			}
 		});
 		this.search[type_endcall].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				search_toggles[type_endcall] = search[type_endcall].isChecked();
+				setSearch(type_endcall);
 			}
 		});
 
@@ -246,41 +230,42 @@ public class ButtonToggles extends Activity {//{{{
 		this.home[type_back].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
 				home_toggles[type_back] = home[type_back].isChecked();
+				setHome(type_back);
 			}
 		});
 		this.home[type_power].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_power] = home[type_power].isChecked();
+				setHome(type_power);
 			}
 		});
 		this.home[type_home].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_home] = home[type_home].isChecked();
+				setHome(type_home);
 			}
 		});
 		this.home[type_menu].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_menu] = home[type_menu].isChecked();
+				setHome(type_menu);
 			}
 		});
 		this.home[type_search].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_search] = home[type_search].isChecked();
+				setHome(type_search);
 			}
 		});
 		this.home[type_camera].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_camera] = home[type_camera].isChecked();
+				setHome(type_camera);
 			}
 		});
 		this.home[type_call].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_call] = home[type_call].isChecked();
+				setHome(type_call);
 			}
 		});
 		this.home[type_endcall].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				home_toggles[type_endcall] = home[type_endcall].isChecked();
+				setHome(type_endcall);
 			}
 		});
 
@@ -291,42 +276,42 @@ public class ButtonToggles extends Activity {//{{{
 		});
 		this.menu[type_back].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_back] = menu[type_back].isChecked();
+				setMenu(type_back);
 			}
 		});
 		this.menu[type_power].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_power] = menu[type_power].isChecked();
+				setMenu(type_power);
 			}
 		});
 		this.menu[type_home].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_home] = menu[type_home].isChecked();
+				setMenu(type_home);
 			}
 		});
 		this.menu[type_menu].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_menu] = menu[type_menu].isChecked();
+				setMenu(type_menu);
 			}
 		});
 		this.menu[type_search].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_search] = menu[type_search].isChecked();
+				setMenu(type_search);
 			}
 		});
 		this.menu[type_camera].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_camera] = menu[type_camera].isChecked();
+				setMenu(type_camera);
 			}
 		});
 		this.menu[type_call].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_call] = menu[type_call].isChecked();
+				setMenu(type_call);
 			}
 		});
 		this.menu[type_endcall].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				menu_toggles[type_endcall] = menu[type_endcall].isChecked();
+				setMenu(type_endcall);
 			}
 		});
 
@@ -337,42 +322,42 @@ public class ButtonToggles extends Activity {//{{{
 		});
 		this.capback[type_back].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_back] = capback[type_back].isChecked();
+				setCapBack(type_back);
 			}
 		});
 		this.capback[type_power].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_power] = capback[type_power].isChecked();
+				setCapBack(type_power);
 			}
 		});
 		this.capback[type_home].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_home] = capback[type_home].isChecked();
+				setCapBack(type_home);
 			}
 		});
 		this.capback[type_menu].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_menu] = capback[type_menu].isChecked();
+				setCapBack(type_menu);
 			}
 		});
 		this.capback[type_search].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_search] = capback[type_search].isChecked();
+				setCapBack(type_search);
 			}
 		});
 		this.capback[type_camera].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_camera] = capback[type_camera].isChecked();
+				setCapBack(type_camera);
 			}
 		});
 		this.capback[type_call].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_call] = capback[type_call].isChecked();
+				setCapBack(type_call);
 			}
 		});
 		this.capback[type_endcall].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				capback_toggles[type_endcall] = capback[type_endcall].isChecked();
+				setCapBack(type_endcall);
 			}
 		});
 
@@ -381,93 +366,12 @@ public class ButtonToggles extends Activity {//{{{
 				volup_toggles[type_wake] = volup[type_wake].isChecked();
 			}
 		});
-		this.volup[type_back].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_back] = volup[type_back].isChecked();
-			}
-		});
-		this.volup[type_power].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_power] = volup[type_power].isChecked();
-			}
-		});
-		this.volup[type_home].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_home] = volup[type_home].isChecked();
-			}
-		});
-		this.volup[type_menu].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_menu] = volup[type_menu].isChecked();
-			}
-		});
-		this.volup[type_search].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_search] = volup[type_search].isChecked();
-			}
-		});
-		this.volup[type_camera].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_camera] = volup[type_camera].isChecked();
-			}
-		});
-		this.volup[type_call].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_call] = volup[type_call].isChecked();
-			}
-		});
-		this.volup[type_endcall].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				volup_toggles[type_endcall] = volup[type_endcall].isChecked();
-			}
-		});
-
 		this.voldown[type_wake].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
 				voldown_toggles[type_wake] = voldown[type_wake].isChecked();
 			}
 		});
-		this.voldown[type_back].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_back] = voldown[type_back].isChecked();
-			}
-		});
-		this.voldown[type_power].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_power] = voldown[type_power].isChecked();
-			}
-		});
-		this.voldown[type_home].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_home] = voldown[type_home].isChecked();
-			}
-		});
-		this.voldown[type_menu].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_menu] = voldown[type_menu].isChecked();
-			}
-		});
-		this.voldown[type_search].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_search] = voldown[type_search].isChecked();
-			}
-		});
-		this.voldown[type_camera].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_camera] = voldown[type_camera].isChecked();
-			}
-		});
-		this.voldown[type_call].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_call] = voldown[type_call].isChecked();
-			}
-		});
-		this.voldown[type_endcall].setOnClickListener(new OnClickListener() {
-			public void onClick(View v){
-				voldown_toggles[type_endcall] = voldown[type_endcall].isChecked();
-			}
-		});
-
+		
 		this.physback[type_wake].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
 				physback_toggles[type_wake] = physback[type_wake].isChecked();
@@ -475,42 +379,42 @@ public class ButtonToggles extends Activity {//{{{
 		});
 		this.physback[type_back].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_back] = physback[type_back].isChecked();
+				setPhysBack(type_back);
 			}
 		});
 		this.physback[type_power].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_power] = physback[type_power].isChecked();
+				setPhysBack(type_power);
 			}
 		});
 		this.physback[type_home].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_home] = physback[type_home].isChecked();
+				setPhysBack(type_home);
 			}
 		});
 		this.physback[type_menu].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_menu] = physback[type_menu].isChecked();
+				setPhysBack(type_menu);
 			}
 		});
 		this.physback[type_search].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_search] = physback[type_search].isChecked();
+				setPhysBack(type_search);
 			}
 		});
 		this.physback[type_camera].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_camera] = physback[type_camera].isChecked();
+				setPhysBack(type_camera);
 			}
 		});
 		this.physback[type_call].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_call] = physback[type_call].isChecked();
+				setPhysBack(type_call);
 			}
 		});
 		this.physback[type_endcall].setOnClickListener(new OnClickListener() {
 			public void onClick(View v){
-				physback_toggles[type_endcall] = physback[type_endcall].isChecked();
+				setPhysBack(type_endcall);
 			}
 		});
 
@@ -523,8 +427,76 @@ public class ButtonToggles extends Activity {//{{{
 
     }//}}}
 
+	public void setSearch(int type){//{{{
+		int i;
+
+		for(i = 1; i < nTypes; i++){
+			if(i != type){
+				search_toggles[i] = false;
+				search[i].setChecked(false);
+			} else {
+				search_toggles[i] = true;
+				search[i].setChecked(true);
+			}
+		}
+	}//}}}
+	public void setHome(int type){//{{{
+		int i;
+
+		for(i = 1; i < nTypes; i++){
+			if(i != type){
+				home_toggles[i] = false;
+				home[i].setChecked(false);
+			} else {
+				home_toggles[i] = true;
+				home[i].setChecked(true);
+			}
+		}
+	}//}}}
+	public void setMenu(int type){//{{{
+		int i;
+
+		for(i = 1; i < nTypes; i++){
+			if(i != type){
+				menu_toggles[i] = false;
+				menu[i].setChecked(false);
+			} else {
+				menu_toggles[i] = true;
+				menu[i].setChecked(true);
+			}
+		}
+	}//}}}
+	public void setCapBack(int type){//{{{
+		int i;
+
+		for(i = 1; i < nTypes; i++){
+			if(i != type){
+				capback_toggles[i] = false;
+				capback[i].setChecked(false);
+			} else {
+				capback_toggles[i] = true;
+				capback[i].setChecked(true);
+			}
+		}
+	}//}}}
+	
+	public void setPhysBack(int type){//{{{
+		int i;
+
+		for(i = 1; i < nTypes; i++){
+			if(i != type){
+				physback_toggles[i] = false;
+				physback[i].setChecked(false);
+			} else {
+				physback_toggles[i] = true;
+				physback[i].setChecked(true);
+			}
+		}
+	}//}}}
+    
     public void togglePhysicalButtons(){//{{{
 		int i;
+		Toast toast;
     	String command;
 		String search_com;
 		String home_com;
@@ -541,16 +513,15 @@ public class ButtonToggles extends Activity {//{{{
     		run.suCom(command);
     		command = "echo 'key 62 POWER WAKE' > /system/usr/keylayout/qwerty.kl";
     		run.suCom(command);
-
 			search_com = "echo 'key "+button_codes[SEARCH_BUTTON]+" ";
 			home_com = "echo 'key "+button_codes[HOME_BUTTON]+" ";
 			menu_com = "echo 'key "+button_codes[MENU_BUTTON]+" ";
 			capback_com = "echo 'key "+button_codes[CAPBACK_BUTTON]+" ";
-			volup_com = "echo 'key "+button_codes[VOLUP_BUTTON]+" ";
-			voldown_com = "echo 'key "+button_codes[VOLDOWN_BUTTON]+" ";
+			volup_com = "echo 'key "+button_codes[VOLUP_BUTTON]+" VOLUME_UP ";
+			voldown_com = "echo 'key "+button_codes[VOLDOWN_BUTTON]+" VOLUME_DOWN ";
 			physback_com = "echo 'key "+button_codes[PHYSBACK_BUTTON]+" ";
 
-			for(i = 0; i< nTypes; i++){
+			for(i = 1; i< nTypes; i++){
 				if(search_toggles[i]){
 					search_com = search_com + physical_types[i].toUpperCase() + " ";
 				}
@@ -563,12 +534,6 @@ public class ButtonToggles extends Activity {//{{{
 				if(capback_toggles[i]){
 					capback_com = capback_com + physical_types[i].toUpperCase() + " ";
 				}
-				if(volup_toggles[i]){
-					volup_com = volup_com + physical_types[i].toUpperCase() + " ";
-				}
-				if(voldown_toggles[i]){
-					voldown_com = voldown_com + physical_types[i].toUpperCase() + " ";
-				}
 				if(physback_toggles[i]){
 					physback_com = physback_com + physical_types[i].toUpperCase() + " ";
 				}
@@ -576,10 +541,38 @@ public class ButtonToggles extends Activity {//{{{
 				editor.putBoolean(home_tags[i], home_toggles[i]);
 				editor.putBoolean(menu_tags[i], menu_toggles[i]);
 				editor.putBoolean(capback_tags[i], capback_toggles[i]);
-				editor.putBoolean(volup_tags[i], volup_toggles[i]);
-				editor.putBoolean(voldown_tags[i], voldown_toggles[i]);
 				editor.putBoolean(physback_tags[i], physback_toggles[i]);
 			}
+
+			if(search_toggles[type_wake]){
+				search_com = search_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(home_toggles[type_wake]){
+				home_com = home_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(menu_toggles[type_wake]){
+				menu_com = menu_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(capback_toggles[type_wake]){
+				capback_com = capback_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(volup_toggles[type_wake]){
+				volup_com = volup_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(voldown_toggles[type_wake]){
+				voldown_com = voldown_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			if(physback_toggles[type_wake]){
+				physback_com = physback_com + physical_types[type_wake].toUpperCase() + " ";
+			}
+			editor.putBoolean(search_tags[type_wake], search_toggles[type_wake]);
+			editor.putBoolean(home_tags[type_wake], home_toggles[type_wake]);
+			editor.putBoolean(menu_tags[type_wake], menu_toggles[type_wake]);
+			editor.putBoolean(capback_tags[type_wake], capback_toggles[type_wake]);
+			editor.putBoolean(volup_tags[type_wake], volup_toggles[type_wake]);
+			editor.putBoolean(voldown_tags[type_wake], voldown_toggles[type_wake]);
+			editor.putBoolean(physback_tags[type_wake], physback_toggles[type_wake]);
+			
 			gpio_com = search_com + "' >> /system/usr/keylayout/gpio-keys.kl";
 			qwerty_com = search_com + "' >> /system/usr/keylayout/qwerty.kl";
 			run.suCom(gpio_com);
@@ -592,9 +585,7 @@ public class ButtonToggles extends Activity {//{{{
 			qwerty_com = menu_com + "' >> /system/usr/keylayout/qwerty.kl";
 			run.suCom(gpio_com);
 			run.suCom(qwerty_com);
-			gpio_com = capback_com + "' >> /system/usr/keylayout/gpio-keys.kl";
 			qwerty_com = capback_com + "' >> /system/usr/keylayout/qwerty.kl";
-			run.suCom(gpio_com);
 			run.suCom(qwerty_com);
 			gpio_com = volup_com + "' >> /system/usr/keylayout/gpio-keys.kl";
 			qwerty_com = volup_com + "' >> /system/usr/keylayout/qwerty.kl";
@@ -605,13 +596,13 @@ public class ButtonToggles extends Activity {//{{{
 			run.suCom(gpio_com);
 			run.suCom(qwerty_com);
 			gpio_com = physback_com + "' >> /system/usr/keylayout/gpio-keys.kl";
-			qwerty_com = physback_com + "' >> /system/usr/keylayout/qwerty.kl";
 			run.suCom(gpio_com);
-			run.suCom(qwerty_com);
 
 			editor.putBoolean(reboot_tag,true);
 			editor.commit();
 			Log.w(TAG,"Buttons are now setup.");
+			toast = Toast.makeText(context,"Buttons have been remapped. Reboot for them to take effect.",duration);
+			toast.show();
     	} catch (Exception e){
 			Log.e(TAG,"Button Exception.");
     	}
